@@ -1,0 +1,35 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Expenses, Analytics, Reports, Settings pages + Quick Entry modal + Inventory Valuation view. Depends on FEAT-001, FEAT-002, FEAT-003. Independent from FEAT-003 in terms of file ownership — no file is modified by both. Replaces stub pages for Expenses, Analytics, Reports, Settings.",
+  "status": "pending",
+  "steps": [
+    "1. Create src/components/expenses/ExpenseForm.tsx: React Hook Form + Zod. Fields: date (default today), category (select: Rent, Electricity, Labour, Transport, Packaging, Miscellaneous + custom text input when 'Other' selected), description (text), amount (₹, required > 0), payment_method (cash/upi). Submit calls addExpense().",
+    "2. Create src/components/expenses/ExpenseTable.tsx: Columns: Date, Category badge (color-coded), Description, Amount (₹), Payment Method, Actions (delete with confirm). Shows date-range total at bottom. Supports filter by category.",
+    "3. Create src/pages/ExpensesPage.tsx (replace stub): Header 'Expenses' + 'Add Expense' button. DateRangePicker default this month. Summary: total this period, breakdown by category as horizontal bar chart (Recharts). ExpenseTable. Add Expense opens modal.",
+    "4. Create src/pages/AnalyticsPage.tsx (replace stub): Tab navigation: Sales Analytics | Inventory Analytics | Profit & Loss. --- SALES ANALYTICS TAB: DateRangePicker. Top 5 products bar chart (qty sold). Sales by payment method pie chart. Daily sales area chart (last 30 days). Sales by day-of-week bar chart (which day gets most sales). Period comparison: this month vs last month revenue + profit as grouped bar chart. --- INVENTORY ANALYTICS TAB: Inventory Valuation table: Product | Qty | Purchase Price | Total Value. Category breakdown pie chart. Fast-moving (top 10 by qty sold last 30 days) list. Slow-moving / dead stock list. Restock prediction table: Product | Current Stock | Daily Avg Sales | Est. Days Remaining | Action (flag if < 7 days). --- P&L TAB: DateRangePicker. P&L summary card: Revenue (from sales), COGS (sum cost_price * qty from sale_items), Gross Profit, Operating Expenses (from expenses table), Net Profit. Visual: stacked bar showing revenue breakdown. Monthly P&L table: Month | Revenue | COGS | Gross Profit | Expenses | Net Profit | Margin %.",
+    "5. Create src/pages/ReportsPage.tsx (replace stub): Two sections. --- REPORT CARDS: clickable cards that generate and download files: (a) Sales Report (CSV via papaparse) — columns: Date, Product, Qty, Unit Price, Total, Profit, Customer, Payment Method; (b) Purchase Report (CSV) — Date, Product, Qty, Unit Price, Total, Supplier, Status; (c) Expense Report (CSV) — Date, Category, Description, Amount, Payment; (d) Debtor Report (CSV) — Customer, Mobile, Outstanding, Last Transaction, Overdue; (e) Inventory Report (CSV) — Product, SKU, Category, Stock, Purchase Price, Value, Status; (f) P&L Summary (PDF via jsPDF + jspdf-autotable) — formatted statement with store name, period, revenue, cogs, gross profit, expenses, net profit. --- DATE FILTER: DateRangePicker applies to all reports. Each report card shows: icon, title, description, 'Download CSV/PDF' button. Show a toast/alert on successful download.",
+    "6. Create src/pages/SettingsPage.tsx (replace stub): Tabs: Store Settings | Categories | Demo Data. --- STORE SETTINGS: form with store name, address, phone, currency (locked to INR), timezone (locked to IST). Save button. --- CATEGORIES: list of product categories with color swatches. Add category (name + color picker using 8 preset colors). Delete category (if no products use it). Default categories pre-populated from seed data: Grains, Essentials, Oils, Snacks, Personal Care, Beverages. --- DEMO DATA: In demo mode show 'Reset Demo Data' button that clears localStorage and reloads seed data. In Supabase mode this section is hidden.",
+    "7. Create src/components/quick-entry/QuickEntryModal.tsx: Floating action button (+ icon, indigo, fixed bottom-right, visible on all pages). Clicking opens a modal with 3 quick-entry tabs: Quick Sale (simplified SaleForm with just product, qty, total, payment method — no customer required), Quick Purchase (product, qty, price, supplier optional), Quick Expense (category, amount, description). Each tab auto-submits and shows a success toast. Designed for very fast data entry — fewest fields possible. After submit: auto-resets form, stays open for next entry, shows 'Saved!' confirmation.",
+    "8. Wire QuickEntryModal into AppLayout.tsx: import QuickEntryModal and render it inside AppLayout so the FAB appears on every protected page.",
+    "9. Create src/components/dashboard/InsightsPanel.tsx insight messages using specific rule-based templates: LOW_STOCK: '{product} is running low — only {n} {unit} left. Min level: {min}. Consider restocking soon.' DEAD_STOCK: '{product} hasn\\'t sold in over 30 days. Review pricing or offer a discount.' RESTOCK_SOON: '{product} will last approx {days} more days at current sales rate.' OVERDUE_DEBTOR: '{customer} owes ₹{amount} — overdue since {date}.' SALES_TREND_UP: 'Sales are up {pct}% compared to last week — great performance!' SALES_TREND_DOWN: 'Sales dropped {pct}% vs last week. Check if any popular items are out of stock.'",
+    "10. Ensure all Recharts components use <ResponsiveContainer width='100%' height={300}> so they resize correctly on mobile and desktop.",
+    "11. Add README.md at workspace root: sections — About Co.Muneeb, Features list, Tech Stack, Getting Started (npm install + npm run dev), Demo Mode explanation, Supabase Setup (link to .env.example), Screenshot placeholder, License MIT."
+  ],
+  "acceptance_criteria": [
+    "npm run build passes with zero errors",
+    "Expenses page renders the expense table and category breakdown chart using seed data",
+    "Analytics page: Sales tab shows all 4 charts; Inventory tab shows valuation table and fast/slow movers; P&L tab shows summary with correct Net Profit formula (Revenue - COGS - Expenses)",
+    "Reports page: clicking 'Download CSV' for Sales Report downloads a valid CSV file",
+    "Reports page: clicking 'Download PDF' for P&L Summary downloads a formatted PDF",
+    "Settings page: Categories tab lists 6 default categories; Add Category form works",
+    "Quick Entry FAB is visible on Dashboard, Inventory, and Sales pages",
+    "Quick Sale form in QuickEntryModal auto-fills price when product is selected",
+    "All Recharts charts render without console errors on both mobile (375px) and desktop (1280px) viewport sizes"
+  ],
+  "verification": [
+    "cd c:\\Users\\alokg\\OneDrive\\Desktop\\comunib && npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

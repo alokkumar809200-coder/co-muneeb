@@ -1,0 +1,7 @@
+{
+  "task_id": "task-comunib-kirana-app",
+  "task_description": "Build Co.Muneeb — a complete, production-quality Kirana Store Management + Business Analytics web app. React 18 + TypeScript + Vite + Tailwind CSS + Supabase. Local demo mode via localStorage when Supabase env vars are absent.",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004", "FEAT-005"],
+  "blocked_reason": null
+}

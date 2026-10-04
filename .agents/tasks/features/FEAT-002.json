@@ -1,0 +1,46 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "App shell, routing, auth, layout components, and all reusable UI primitives. Depends on FEAT-001 (types, utils, dataLayer). This FEAT produces a navigable shell with all pages stubbed; real page content comes in FEAT-003 and FEAT-004.",
+  "status": "pending",
+  "steps": [
+    "1. Create src/context/AuthContext.tsx: AuthProvider wraps the app. In demo mode (no Supabase) it auto-signs in with a mock user {id:'demo', email:'demo@comunib.app', storeName:'Demo Kirana Store'} and sets isAuthenticated=true immediately. In Supabase mode it uses supabase.auth.onAuthStateChange. Export useAuth() hook. Context shape: {user, isAuthenticated, isLoading, signIn(email,pass), signUp(email,pass,storeName), signOut, isDemo: boolean}.",
+    "2. Create src/context/StoreContext.tsx: Provides storeId (string) and storeName (string) to all children. In demo mode uses 'demo-store'. Export useStore() hook.",
+    "3. Create src/main.tsx: ReactDOM.createRoot, wrap App in <StrictMode>, <BrowserRouter>, <AuthProvider>, <StoreProvider>.",
+    "4. Create src/App.tsx: Define all routes using React Router v6. Public routes: /landing (LandingPage), /login (LoginPage), /signup (SignupPage). Protected routes (require isAuthenticated, else redirect /login): / (DashboardPage), /inventory (InventoryPage), /sales (SalesPage), /purchases (PurchasesPage), /debtors (DebtorsPage), /debtors/:id (DebtorDetailPage), /creditors (CreditorsPage), /creditors/:id (CreditorDetailPage), /expenses (ExpensesPage), /analytics (AnalyticsPage), /reports (ReportsPage), /settings (SettingsPage). All protected routes render inside AppLayout via <Outlet>. Root path / redirects to /dashboard in demo mode.",
+    "5. Create src/components/layout/Sidebar.tsx: Left sidebar for desktop (md+). Brand logo at top: shopping-bag icon + 'Co.Muneeb' in indigo-600 bold + tagline 'Your Kirana Business, Clearly.' in gray-400 tiny text. Nav items with Lucide icons: Dashboard (LayoutDashboard), Inventory (Package), Sales (ShoppingCart), Purchases (Truck), Debtors (Users), Creditors (UserCheck), Expenses (Receipt), Analytics (BarChart3), Reports (FileText), Settings (Settings). Active item gets indigo-100 bg + indigo-700 text. Show store name at bottom with a logout button. Width w-64, bg-white, border-r border-gray-200, full height.",
+    "6. Create src/components/layout/TopBar.tsx: Sticky top bar for all screen sizes. Left: hamburger menu button (mobile only) to toggle sidebar. Center/left: current page title derived from route. Right: Quick Entry button (+ icon, indigo bg), notification bell icon, store name chip. Height h-14, bg-white, border-b border-gray-200, shadow-sm.",
+    "7. Create src/components/layout/MobileNav.tsx: Bottom navigation bar for mobile (md:hidden). 5 most important items: Dashboard, Inventory, Sales, Debtors, More (opens a drawer with the rest). Fixed bottom, bg-white, border-t. Active item indigo icon + label.",
+    "8. Create src/components/layout/AppLayout.tsx: Combines Sidebar + TopBar + main content area + MobileNav. On mobile: sidebar hidden by default, slides in as drawer overlay when hamburger is tapped. On desktop: sidebar always visible. Main content scrolls. Background bg-slate-50 (maps to #f8fafc). Renders <Outlet /> for page content.",
+    "9. Create src/components/ui/Button.tsx: variants (primary, secondary, danger, ghost, outline), sizes (sm, md, lg). Uses cn() for class merging. Forwards ref. Accepts isLoading prop (shows spinner). Full accessible button element.",
+    "10. Create src/components/ui/Card.tsx: Wrapper with bg-white rounded-xl shadow-sm border border-gray-100 p-4 or p-6. Accepts title, subtitle, action (JSX), children.",
+    "11. Create src/components/ui/Badge.tsx: Colored pill badges. variants: success (green), warning (amber), danger (red), info (blue), neutral (gray), primary (indigo). Sizes: sm, md.",
+    "12. Create src/components/ui/Modal.tsx: Accessible dialog using a portal. Backdrop overlay. Header with title + close X button. Body scrollable. Footer slot. Close on backdrop click or Escape key. Accepts isOpen, onClose, title, children, size (sm|md|lg|xl).",
+    "13. Create src/components/ui/Input.tsx: Labeled text input. Accepts label, error, helper text, prefix (e.g. '₹'), suffix, type, register (React Hook Form compatible). Shows red border + error message when error prop is set.",
+    "14. Create src/components/ui/Select.tsx: Labeled select dropdown. Same error handling as Input. Accepts options: {value, label}[].",
+    "15. Create src/components/ui/Table.tsx: Generic responsive table. Props: columns: {key, header, render?, width?, align?}[], data: T[], isLoading?, emptyMessage?. On mobile shows horizontal scroll. Striped rows, hover highlight.",
+    "16. Create src/components/ui/DateRangePicker.tsx: Two date inputs (from/to) side by side. Preset buttons: Today, Last 7 days, This month, Last 30 days, Last 3 months. Returns {from: string, to: string} in YYYY-MM-DD format.",
+    "17. Create src/components/ui/SearchBar.tsx: Input with search icon (Lucide Search), debounced 300ms, clear button when value present.",
+    "18. Create src/components/ui/EmptyState.tsx: Centered empty state with an icon, title, description, and optional CTA button. Used when tables/lists have no data.",
+    "19. Create src/components/ui/LoadingSpinner.tsx: Animated spinner in indigo. Sizes: sm, md, lg. Centered wrapper variant.",
+    "20. Create src/components/ui/AlertBanner.tsx: Dismissible alert strip. variants: info, success, warning, error. Icon + message + optional action link + dismiss X.",
+    "21. Create src/hooks/useAuth.ts: Re-exports useAuth from AuthContext.",
+    "22. Create src/pages/LandingPage.tsx: Marketing/hero page. Hero section: large heading 'Know Your Store. Control Your Stock. Grow Your Business.' + sub-heading + CTA buttons (Get Started Free → /signup, See Demo → / which auto-logs in demo mode). Feature grid: 6 cards showing key features with icons (Inventory, Sales Tracking, Debtors/Creditors, Analytics, Reports, Smart Insights). Color gradient header indigo to purple. Footer with brand name.",
+    "23. Create src/pages/LoginPage.tsx: Clean centered card. Email + Password fields with React Hook Form + Zod validation. Sign In button. Link to /signup. In demo mode show a 'Continue as Demo' button that skips credentials. Show error alert on invalid credentials.",
+    "24. Create src/pages/SignupPage.tsx: Store Name + Email + Password + Confirm Password fields. React Hook Form + Zod. On submit: in demo mode, redirects to / with toast; in Supabase mode calls supabase.auth.signUp. Link to /login.",
+    "25. Create stub page files for all remaining pages (each renders a <div> with the page title as placeholder text) — these will be fully implemented in FEAT-003 and FEAT-004: src/pages/DashboardPage.tsx, InventoryPage.tsx, SalesPage.tsx, PurchasesPage.tsx, DebtorsPage.tsx, DebtorDetailPage.tsx, CreditorsPage.tsx, CreditorDetailPage.tsx, ExpensesPage.tsx, AnalyticsPage.tsx, ReportsPage.tsx, SettingsPage.tsx."
+  ],
+  "acceptance_criteria": [
+    "npm run build passes with zero errors after FEAT-002 files are added",
+    "npm run dev serves the app at http://localhost:5173 — landing page renders without console errors",
+    "Navigating to /login shows the login form; clicking 'Continue as Demo' redirects to /",
+    "Sidebar renders with all 10 nav items; active item is highlighted in indigo",
+    "Mobile view (< 768px) shows bottom nav bar and hides sidebar",
+    "All UI primitives (Button, Card, Badge, Modal, Input, Select, Table, DateRangePicker, SearchBar, EmptyState, LoadingSpinner, AlertBanner) render without TypeScript errors"
+  ],
+  "verification": [
+    "cd c:\\Users\\alokg\\OneDrive\\Desktop\\comunib && npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

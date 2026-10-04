@@ -1,0 +1,20 @@
+
+> comunib@0.1.0 build
+> tsc && vite build
+
+src/components/quick-entry/QuickEntryModal.tsx(151,11): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<CustomerTransaction, "id">'.
+src/components/quick-entry/QuickEntryModal.tsx(165,11): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<SupplierTransaction, "id">'.
+src/pages/AnalyticsPage.tsx(14,3): error TS2614: Module '"@/components/ui/DateRangePicker"' has no exported member 'DateRangePicker'. Did you mean to use 'import DateRangePicker from "@/components/ui/DateRangePicker"' instead?
+src/pages/CreditorDetailPage.tsx(51,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<SupplierTransaction, "id">'.
+src/pages/CreditorDetailPage.tsx(74,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<SupplierTransaction, "id">'.
+src/pages/CreditorsPage.tsx(59,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<SupplierTransaction, "id">'.
+src/pages/CreditorsPage.tsx(82,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<SupplierTransaction, "id">'.
+src/pages/DebtorDetailPage.tsx(51,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<CustomerTransaction, "id">'.
+src/pages/DebtorDetailPage.tsx(74,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<CustomerTransaction, "id">'.
+src/pages/DebtorsPage.tsx(59,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<CustomerTransaction, "id">'.
+src/pages/DebtorsPage.tsx(82,9): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Omit<CustomerTransaction, "id">'.
+src/pages/ExpensesPage.tsx(13,3): error TS2614: Module '"@/components/ui/DateRangePicker"' has no exported member 'DateRangePicker'. Did you mean to use 'import DateRangePicker from "@/components/ui/DateRangePicker"' instead?
+src/pages/PurchasesPage.tsx(4,3): error TS2614: Module '"@/components/ui/DateRangePicker"' has no exported member 'DateRangePicker'. Did you mean to use 'import DateRangePicker from "@/components/ui/DateRangePicker"' instead?
+src/pages/ReportsPage.tsx(5,3): error TS2614: Module '"@/components/ui/DateRangePicker"' has no exported member 'DateRangePicker'. Did you mean to use 'import DateRangePicker from "@/components/ui/DateRangePicker"' instead?
+src/pages/SalesPage.tsx(4,3): error TS2614: Module '"@/components/ui/DateRangePicker"' has no exported member 'DateRangePicker'. Did you mean to use 'import DateRangePicker from "@/components/ui/DateRangePicker"' instead?
+EXIT_CODE=0 

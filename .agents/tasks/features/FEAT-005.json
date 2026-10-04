@@ -1,0 +1,32 @@
+{
+  "id": "FEAT-005",
+  "type": "chore",
+  "description": "Polish, cross-cutting concerns, and production readiness: responsive layout audit, mobile UX fixes, toast notification system, loading/error states, 404 page, keyboard accessibility, and final build verification. Depends on FEAT-001 through FEAT-004 being complete. Independent of no other FEAT — runs last.",
+  "status": "pending",
+  "steps": [
+    "1. Create a lightweight toast notification system. Create src/components/ui/Toast.tsx: a toast context + provider that queues messages. Methods: showToast(message, type: 'success'|'error'|'info'|'warning'). Toast renders as a fixed top-right stack (z-50). Auto-dismiss after 3 seconds. Slide-in animation using Tailwind transition classes. Wire ToastProvider into src/main.tsx wrapping the app.",
+    "2. Add useToast() hook in src/hooks/useToast.ts that calls showToast from ToastContext. Update all form submit handlers in SaleForm, PurchaseForm, ProductForm, CustomerForm, SupplierForm, ExpenseForm, and QuickEntryModal to call useToast() and show success/error toasts.",
+    "3. Audit all pages for missing loading states. Every page that fetches data must show <LoadingSpinner /> centered in the content area while isLoading is true. Every page that has an error must show an <AlertBanner variant='error' /> with the error message and a Retry button that calls refresh().",
+    "4. Create src/pages/NotFoundPage.tsx: 404 page with Co.Muneeb branding, a large '404' heading, 'Page not found' message, and a 'Go to Dashboard' button. Add a catch-all route in App.tsx: path='*' → NotFoundPage.",
+    "5. Mobile responsiveness audit — fix any layout issues: (a) All tables must wrap in an overflow-x-auto div so they scroll horizontally on small screens. (b) Modal sizes must cap at w-full on mobile (max-w-lg on sm+). (c) DateRangePicker must stack vertically on mobile. (d) Dashboard stat cards: 2 columns on mobile, 3 on md+. (e) Sidebar drawer on mobile must have a visible close button. (f) All form inputs must be full-width on mobile.",
+    "6. Keyboard accessibility: (a) Modal must trap focus (Tab cycles within modal, Escape closes). (b) All interactive elements (buttons, inputs, selects, nav items) must have visible focus rings (focus:outline-none focus:ring-2 focus:ring-indigo-500). (c) Table rows with onClick must have role='button' and tabIndex={0} with onKeyDown Enter handler. (d) Nav items use proper <a> or <Link> elements — not divs with onClick.",
+    "7. Performance: wrap expensive dashboard computations in useMemo. Specifically: InsightAlert[] computation in useDashboard.ts, totalInventoryValue in useProducts.ts, and P&L aggregations in AnalyticsPage.tsx.",
+    "8. Update src/lib/dataLayer.ts LocalDataLayer: add a getDashboardStats() implementation that computes all stats from localStorage data in one pass: iterates sales (last 30 days) for revenue and COGS, iterates expenses for operating costs, sums product inventory values, sums customer/supplier balances. This consolidates stats computation in the data layer rather than each hook doing it separately.",
+    "9. Final build verification: run `npm run build` and ensure zero TypeScript errors, zero Vite warnings about circular imports, and bundle size is reasonable. If bundle exceeds 2MB uncompressed, add dynamic imports for recharts and jspdf pages using React.lazy() + Suspense with LoadingSpinner fallback.",
+    "10. Update README.md with final accurate instructions based on the built project."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with zero TypeScript errors",
+    "Toast notifications appear when adding a sale, product, expense, customer, or supplier",
+    "Loading spinners appear on initial data load for Dashboard, Inventory, Sales, Debtors, Creditors, and Expenses pages",
+    "Navigating to /nonexistent-path shows the 404 page",
+    "On a 375px viewport: dashboard shows 2 stat cards per row, tables scroll horizontally, modals are full width, sidebar is hidden and accessible via hamburger",
+    "Tab key cycles through all interactive elements on the Login page without getting trapped outside the modal",
+    "npm run build output does not emit circular dependency warnings"
+  ],
+  "verification": [
+    "cd c:\\Users\\alokg\\OneDrive\\Desktop\\comunib && npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
